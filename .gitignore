@@ -18,3 +18,4 @@ infra/terraform/*.tfstate*
 
 # Java build output
 packages/sdk-java/target/
+site/dist/

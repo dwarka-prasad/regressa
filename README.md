@@ -2,6 +2,8 @@
 
 > Catch AI regressions before your users do.
 
+**Site and docs:** https://dwarka-prasad.github.io/regressa/ · **Architecture:** [ARCHITECTURE.md](ARCHITECTURE.md) · **CI:** ![CI](https://github.com/dwarka-prasad/regressa/actions/workflows/ci.yml/badge.svg)
+
 Regressa is an LLM observability and prompt-regression monitoring platform. Teams install a lightweight SDK
 (`@regressa/node` or `regressa-sdk` on PyPI) that wraps their OpenAI / Anthropic calls. Every call is logged with
 prompt, response, model, tokens, cost, latency and a content hash of the prompt template. Regressa detects
@@ -27,6 +29,18 @@ infra/
   terraform/           cloud infra (stub)
 docs/
 ```
+
+## Documentation
+
+| | |
+|---|---|
+| [Architecture](ARCHITECTURE.md) | components, data flow, versioning, alerting, storage, tenancy |
+| [Data model](docs/data-model.md) | every table and the metadata conventions |
+| [SDKs](docs/sdks.md) | Node, Python, Go, Java, OpenTelemetry |
+| [Ingestion API](docs/ingest-api.md) · [Public API](docs/public-api.md) | wire formats |
+| [Evals](docs/evals.md) · [Alerts](docs/alerts.md) · [CI gate](docs/ci-gate.md) | quality scoring and regression detection |
+| [Governance](docs/governance.md) · [Security](docs/security.md) | budgets, redaction, retention, SSO, audit |
+| [Deployment](docs/deployment.md) · [Local development](docs/local-dev.md) · [Contributing](CONTRIBUTING.md) | running it |
 
 ## Quick start
 

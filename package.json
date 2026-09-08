@@ -2,7 +2,7 @@
   "name": "regressa",
   "private": true,
   "version": "0.1.0",
-  "description": "Regressa \u2014 catch AI regressions before your users do. LLM observability and prompt-regression monitoring.",
+  "description": "Regressa — catch AI regressions before your users do. LLM observability and prompt-regression monitoring.",
   "packageManager": "pnpm@9.15.9",
   "scripts": {
     "dev": "pnpm --filter \"./packages/**\" build && set -a && . ./.env && set +a && turbo run dev --parallel",
@@ -21,9 +21,10 @@
     "test:all": "pnpm test && pnpm test:py && pnpm test:go && pnpm test:java"
   },
   "devDependencies": {
+    "@types/node": "^22.10.2",
+    "marked": "15",
     "turbo": "^2.3.3",
     "typescript": "^5.6.3",
-    "@types/node": "^22.10.2",
     "vitest": "^2.1.8"
   },
   "engines": {

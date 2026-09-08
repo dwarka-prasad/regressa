@@ -1,0 +1,78 @@
+<section class="hero">
+  <div>
+    <span class="pill">Open source · self-hostable · 4 SDKs</span>
+    <h1>Catch AI regressions before your users do.</h1>
+    <p class="lead">Regressa logs every LLM call, versions every prompt change, scores output quality automatically, and alerts you the moment quality drops, cost spikes, or latency degrades.</p>
+    <p><a class="btn primary" href="/regressa/docs/local-dev.html">Get started</a> <a class="btn" href="/regressa/docs/architecture.html">Read the architecture</a> <a class="btn" href="https://github.com/dwarka-prasad/regressa">GitHub</a></p>
+  </div>
+  <div class="shot" aria-hidden="true">
+    <div class="row">
+      <div class="stat"><small>Requests</small><b>48,211</b><span class="d ok">▲ 12.4%</span></div>
+      <div class="stat"><small>Eval score</small><b>0.86</b><span class="d bad">▼ 7.1%</span></div>
+      <div class="stat"><small>p95 latency</small><b>812ms</b><span class="d ok">▼ 3.0%</span></div>
+      <div class="stat"><small>Cost</small><b>$142.30</b><span class="d bad">▲ 21.9%</span></div>
+    </div>
+    <table>
+      <tr><td>support-agent</td><td><span class="v">v7 · current</span></td><td>0.81</td><td>790ms</td><td>$0.0021</td></tr>
+      <tr><td>support-agent</td><td><span class="v">v6</span></td><td>0.88</td><td>812ms</td><td>$0.0017</td></tr>
+      <tr><td>summarizer</td><td><span class="v">v3 · current</span></td><td>0.92</td><td>1.2s</td><td>$0.0044</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="grid">
+  <div class="card"><h3>Prompt versioning</h3><p>Every distinct template hash becomes a version. Compare quality, latency, error rate and cost across versions, with a line diff.</p></div>
+  <div class="card"><h3>Automated evals</h3><p>LLM-as-judge with rubrics, semantic similarity to a golden set, or your own sandboxed scoring function. Sampled per template.</p></div>
+  <div class="card"><h3>Regression alerts</h3><p>Thresholds, percent change, rolling-baseline anomaly detection and budget caps. Slack, webhooks with HMAC, email.</p></div>
+  <div class="card"><h3>CI gate</h3><p><code>npx @regressa/node gate</code> blocks a merge when a prompt change regresses against production. Ships as a GitHub Action.</p></div>
+  <div class="card"><h3>Governance</h3><p>PII redaction at ingest, per-project retention, budget-driven sampling, OIDC SSO, roles and a full audit log.</p></div>
+  <div class="card"><h3>Any stack</h3><p>SDKs for Node, Python, Go and Java that wrap OpenAI and Anthropic clients in two lines, plus native OpenTelemetry ingestion.</p></div>
+</section>
+
+<section class="section">
+  <h2>Two lines to instrument</h2>
+  <p class="sub">Wrap the client you already use. Declare the template and Regressa does the rest.</p>
+  <div class="code">
+<pre><code>import OpenAI from "openai";
+import { Regressa, wrapOpenAI } from "@regressa/node";
+
+const regressa = new Regressa();               // REGRESSA_API_KEY
+const openai = wrapOpenAI(new OpenAI(), regressa);
+
+await openai.chat.completions.create({
+  model: "gpt-4o-mini",
+  messages,
+  regressa: { promptTemplate: { name: "support-agent", raw: TEMPLATE } },
+});</code></pre>
+<pre><code>from openai import OpenAI
+from regressa import Regressa, wrap_openai
+
+regressa = Regressa()                           # REGRESSA_API_KEY
+openai = wrap_openai(OpenAI(), regressa)
+
+openai.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=messages,
+    regressa_prompt_template={"name": "support-agent", "raw": TEMPLATE},
+)</code></pre>
+  </div>
+</section>
+
+<section class="section">
+  <h2>How it works</h2>
+  <p class="sub">Stateless ingest, queued workers, TimescaleDB for time series, Next.js dashboard.</p>
+  <div class="steps">
+    <div><b>Ingest</b><span>SDK batches traces to the ingest API. Keys are hashed, payloads validated item by item, budgets enforced.</span></div>
+    <div><b>Version and store</b><span>The worker hashes the normalized template, detects new versions, redacts PII and writes to a hypertable.</span></div>
+    <div><b>Score</b><span>Sampled traces are scored by your evals. Results are stored per trace and aggregated per version.</span></div>
+    <div><b>Alert and gate</b><span>Rules run every minute. CI asks the gate for a verdict before a prompt change ships.</span></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Run it locally in two minutes</h2>
+  <pre><code>git clone https://github.com/dwarka-prasad/regressa && cd regressa
+cp .env.example .env && pnpm install
+pnpm infra:up && pnpm db:migrate && pnpm db:seed
+pnpm dev     # dashboard :3100 · ingest :4100 · worker</code></pre>
+</section>
