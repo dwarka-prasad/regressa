@@ -12,3 +12,4 @@ Initial release.
   members, governance, SSO and audit log; light and dark themes
 - Public REST API and CI regression gate (`GET /api/v1/gate`, `npx @regressa/node gate`, GitHub Action)
 - SDKs for Node, Python, Go and Java
+- UI: Framer Motion transitions and staggered entrances, animated counters and chart draw-in, command palette (Ctrl/⌘ K), toasts, collapsible sidebar, skeleton loading, Inter and JetBrains Mono via next/font; marketing site with scroll reveals, animated hero and code tabs

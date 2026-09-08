@@ -1,4 +1,8 @@
+"use client";
+import { motion, useReducedMotion } from "framer-motion";
+
 export function Sparkline({ data, className = "h-8 w-24" }: { data: number[]; className?: string }) {
+  const reduce = useReducedMotion();
   const w = 100, h = 32;
   const max = Math.max(...data, 1e-9), min = Math.min(...data, 0);
   const span = max - min || 1;
@@ -7,8 +11,8 @@ export function Sparkline({ data, className = "h-8 w-24" }: { data: number[]; cl
   const area = `${d} L${w},${h} L0,${h} Z`;
   return (
     <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" className={className} aria-hidden>
-      <path d={area} fill="currentColor" opacity="0.12" />
-      <path d={d} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      <motion.path d={area} fill="currentColor" initial={reduce ? false : { opacity: 0 }} animate={{ opacity: 0.12 }} transition={{ duration: 0.8, delay: 0.3 }} />
+      <motion.path d={d} fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" initial={reduce ? false : { pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.9, ease: "easeOut" }} />
     </svg>
   );
 }

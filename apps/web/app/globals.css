@@ -36,17 +36,20 @@
 
 @layer base {
   html { font-feature-settings: "cv11", "ss01"; }
-  body { @apply bg-bg text-fg antialiased; }
+  body { @apply bg-bg text-fg antialiased; background-image: radial-gradient(1200px 500px at 80% -10%, rgb(var(--brand) / 0.08), transparent 60%); background-attachment: fixed; }
+  [data-theme="dark"] body { background-image: radial-gradient(1200px 500px at 80% -10%, rgb(var(--brand) / 0.14), transparent 60%); }
+  ::-webkit-scrollbar { width: 10px; height: 10px; } ::-webkit-scrollbar-thumb { @apply rounded-full bg-line; } ::-webkit-scrollbar-track { background: transparent; }
   ::selection { @apply bg-brand/20; }
   h1 { @apply text-xl font-semibold tracking-tight; }
   code, kbd, pre { @apply font-mono; }
 }
 
 @layer components {
-  .card { @apply rounded-2xl border border-line bg-surface p-5 shadow-card; }
+  .card { @apply rounded-2xl border border-line bg-surface/90 p-5 shadow-card backdrop-blur-sm transition-colors; }
+  .glass { @apply border border-white/10 bg-surface/60 backdrop-blur-xl; }
   .card-title { @apply text-sm font-semibold; }
   .btn { @apply inline-flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 disabled:cursor-not-allowed disabled:opacity-50; }
-  .btn-primary { @apply btn bg-brand text-brand-fg hover:brightness-110 active:brightness-95; }
+  .btn-primary { @apply btn bg-gradient-to-b from-brand to-brand/90 text-brand-fg shadow-[0_1px_0_rgb(255_255_255/.2)_inset,0_6px_16px_-8px_rgb(var(--brand))] hover:brightness-110 active:translate-y-px active:brightness-95; }
   .btn-ghost { @apply btn border border-line bg-surface text-fg hover:bg-surface-2; }
   .btn-danger { @apply btn border border-bad/30 bg-transparent text-bad hover:bg-bad/10; }
   .btn-sm { @apply px-2 py-1 text-xs; }

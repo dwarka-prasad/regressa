@@ -10,7 +10,7 @@ import { getCtx, PROJECT_COOKIE } from "@/lib/current";
 import { db, schema } from "@/lib/db";
 import { hashPassword } from "@/lib/auth";
 
-const flash = (name: string, value: string) => cookies().set(name, value, { httpOnly: true, sameSite: "lax", path: "/settings", maxAge: 60 });
+const flash = (name: string, value: string) => cookies().set(name, value, { httpOnly: true, sameSite: "lax", path: name === "regressa_new_key" ? "/settings" : "/", maxAge: 60 });
 
 export async function createApiKey(form: FormData): Promise<void> {
   const { project } = await getCtx();

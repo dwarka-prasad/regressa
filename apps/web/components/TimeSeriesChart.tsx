@@ -1,5 +1,6 @@
 "use client";
 import { useId, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 export type Unit = "int" | "usd" | "ms" | "score";
 export interface Series { name: string; color: string; values: number[]; unit?: Unit }
@@ -14,9 +15,10 @@ export function formatUnit(v: number, unit: Unit = "int"): string {
   }
 }
 
-/** Dependency-free responsive area/line chart with hover tooltip. `labels` align with each series' values. */
+/** Dependency-free responsive area/line chart with animated draw-in and hover tooltip. */
 export function TimeSeriesChart({ labels, series, height = 160, kind = "area" }: { labels: string[]; series: Series[]; height?: number; kind?: "area" | "bar" }) {
   const id = useId();
+  const reduce = useReducedMotion();
   const [hover, setHover] = useState<number | null>(null);
   const n = labels.length;
   if (n === 0) return <div className="grid h-40 place-items-center text-sm text-muted">No data in this range</div>;
@@ -34,13 +36,19 @@ export function TimeSeriesChart({ labels, series, height = 160, kind = "area" }:
         onMouseMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); const px = ((e.clientX - r.left) / r.width) * W; let best = 0, bd = Infinity; for (let i = 0; i < n; i++) { const d = Math.abs(x(i) - px); if (d < bd) { bd = d; best = i; } } setHover(best); }}>
         {ticks.map((t) => <g key={t}><line x1={padL} x2={W} y1={y(t)} y2={y(t)} stroke="currentColor" className="text-line" strokeDasharray="2 4" /><text x={padL - 6} y={y(t) + 3} textAnchor="end" fontSize="9" className="fill-muted">{fmt0(t)}</text></g>)}
         {series.map((s, si) => {
-          if (kind === "bar") return <g key={s.name}>{s.values.map((v, i) => <rect key={i} x={x(i) - bw / 2 + (si * bw) / series.length} width={bw / series.length} y={y(v)} height={Math.max(0, H - padB - y(v))} fill={s.color} rx={1.5} opacity={hover == null || hover === i ? 1 : 0.5} />)}</g>;
+          if (kind === "bar") return (
+            <g key={s.name}>{s.values.map((v, i) => {
+              const h = Math.max(0, H - padB - y(v));
+              return <motion.rect key={i} x={x(i) - bw / 2 + (si * bw) / series.length} width={bw / series.length} rx={1.5} fill={s.color}
+                initial={reduce ? false : { height: 0, y: H - padB }} animate={{ height: h, y: H - padB - h, opacity: hover == null || hover === i ? 1 : 0.5 }} transition={{ duration: 0.6, delay: reduce ? 0 : i * 0.015, ease: [0.22, 1, 0.36, 1] }} />;
+            })}</g>
+          );
           const d = s.values.map((v, i) => `${i ? "L" : "M"}${x(i)},${y(v)}`).join(" ");
           return (
             <g key={s.name}>
               <defs><linearGradient id={`${id}-${si}`} x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor={s.color} stopOpacity="0.28" /><stop offset="100%" stopColor={s.color} stopOpacity="0" /></linearGradient></defs>
-              {n > 1 && <path d={`${d} L${x(n - 1)},${H - padB} L${x(0)},${H - padB} Z`} fill={`url(#${id}-${si})`} />}
-              <path d={d} fill="none" stroke={s.color} strokeWidth="2" strokeLinejoin="round" />
+              {n > 1 && <motion.path d={`${d} L${x(n - 1)},${H - padB} L${x(0)},${H - padB} Z`} fill={`url(#${id}-${si})`} initial={reduce ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.4 }} />}
+              <motion.path d={d} fill="none" stroke={s.color} strokeWidth="2" strokeLinejoin="round" initial={reduce ? false : { pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.1, ease: "easeInOut", delay: si * 0.1 }} />
               {hover != null && <circle cx={x(hover)} cy={y(s.values[hover] ?? 0)} r="3.5" fill={s.color} stroke="white" strokeWidth="1.5" />}
             </g>
           );
@@ -48,12 +56,14 @@ export function TimeSeriesChart({ labels, series, height = 160, kind = "area" }:
         {hover != null && <line x1={x(hover)} x2={x(hover)} y1={padT} y2={H - padB} stroke="currentColor" className="text-muted/40" />}
         {[0, Math.floor((n - 1) / 2), n - 1].filter((v, i, a) => a.indexOf(v) === i).map((i) => <text key={i} x={x(i)} y={H - 6} textAnchor={i === 0 ? "start" : i === n - 1 ? "end" : "middle"} fontSize="9" className="fill-muted">{labels[i]}</text>)}
       </svg>
-      {hover != null && (
-        <div className="pointer-events-none absolute -top-1 rounded-lg border border-line bg-surface px-2.5 py-1.5 text-xs shadow-pop" style={{ left: `${(x(hover) / W) * 100}%`, transform: `translateX(${hover > n / 2 ? "-105%" : "5%"})` }}>
-          <div className="mb-0.5 font-medium">{labels[hover]}</div>
-          {series.map((s) => <div key={s.name} className="flex items-center gap-1.5"><span className="dot" style={{ background: s.color }} /><span className="text-muted">{s.name}</span><span className="ml-auto pl-3 font-medium">{formatUnit(s.values[hover] ?? 0, s.unit ?? series[0]?.unit)}</span></div>)}
-        </div>
-      )}
+      <AnimatePresence>
+        {hover != null && (
+          <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.12 }} className="pointer-events-none absolute -top-1 rounded-xl border border-line bg-surface/95 px-2.5 py-1.5 text-xs shadow-pop backdrop-blur" style={{ left: `${(x(hover) / W) * 100}%`, transform: `translateX(${hover > n / 2 ? "-105%" : "5%"})` }}>
+            <div className="mb-0.5 font-medium">{labels[hover]}</div>
+            {series.map((s) => <div key={s.name} className="flex items-center gap-1.5"><span className="dot" style={{ background: s.color }} /><span className="text-muted">{s.name}</span><span className="ml-auto pl-3 font-medium">{formatUnit(s.values[hover] ?? 0, s.unit ?? series[0]?.unit)}</span></div>)}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

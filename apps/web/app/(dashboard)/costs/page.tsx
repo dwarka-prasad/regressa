@@ -22,10 +22,10 @@ export default async function CostsPage({ searchParams }: { searchParams: { rang
     <div className="space-y-5">
       <PageHeader title="Costs" description={`LLM spend for ${project.name} · last ${range.label}`} actions={<Link href="/settings#billing" className="btn-ghost btn-sm">Plan: {org.plan}</Link>} />
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard label="Spend" value={fmtUsd(total, 2)} hint={`${fmtInt(reqs)} requests`} />
+        <StatCard label="Spend" value={fmtUsd(total, 2)} numeric={total} format="usd" hint={`${fmtInt(reqs)} requests`} />
         <StatCard label="Avg cost / request" value={fmtUsd(reqs ? total / reqs : 0, 5)} hint="across all models" />
-        <StatCard label="Projected 30d" value={fmtUsd(projected, 2)} hint="linear extrapolation of this range" />
-        <StatCard label="Models in use" value={String(byModel.length)} hint={byModel[0] ? `${byModel[0].model} leads` : "none yet"} />
+        <StatCard label="Projected 30d" value={fmtUsd(projected, 2)} numeric={projected} format="usd" hint="linear extrapolation of this range" />
+        <StatCard label="Models in use" value={String(byModel.length)} numeric={byModel.length} format="int" hint={byModel[0] ? `${byModel[0].model} leads` : "none yet"} />
       </div>
       <div className="card">
         <div className="mb-3 card-title">Spend over time</div>

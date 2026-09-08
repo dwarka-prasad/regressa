@@ -12,7 +12,8 @@ import { ago, fmtInt, fmtTime } from "@/lib/format";
 import { NewKeyBanner } from "@/components/NewKeyBanner";
 import { PageHeader } from "@/components/PageHeader";
 import { CopyButton } from "@/components/CopyButton";
-import { IconKey, IconUsers } from "@/components/Icons";
+import { KeyRound, Users } from "lucide-react";
+import { Stagger, StaggerItem } from "@/components/motion";
 
 export default async function SettingsPage({ searchParams }: { searchParams: { welcome?: string; billing?: string } }) {
   const ctx = await getCtx();
@@ -41,11 +42,11 @@ export default async function SettingsPage({ searchParams }: { searchParams: { w
       <PageHeader title="Settings" description={`${ctx.org.name} · ${ctx.project.name}`} />
       {searchParams.welcome && <div className="card border-brand/30 bg-brand-soft/50 text-sm">Welcome to Regressa. Create an API key below, then wrap your LLM client with the SDK. The Overview page tracks your setup progress.</div>}
       {searchParams.billing === "success" && <div className="card border-ok/30 bg-ok/5 text-sm">Subscription active. Thanks for upgrading.</div>}
-      {flash && <div className="card border-warn/30 bg-warn/10 text-sm break-all">{flash}</div>}
+      {flash && /password/i.test(flash) && <div className="card border-warn/30 bg-warn/10 text-sm break-all">{flash}</div>}
       {newKey && <NewKeyBanner plaintext={newKey} ingestUrl={ingestUrl} />}
 
       <section className="card" id="keys">
-        <div className="mb-3 flex items-center gap-2"><IconKey className="text-muted" /><h2 className="card-title">API keys</h2><span className="text-xs text-muted">for {ctx.project.name}</span></div>
+        <div className="mb-3 flex items-center gap-2"><KeyRound size={16} className="text-muted" /><h2 className="card-title">API keys</h2><span className="text-xs text-muted">for {ctx.project.name}</span></div>
         <form action={createApiKey} className="mb-4 flex flex-wrap items-end gap-2">
           <div><label className="label">Label</label><input className="input w-48" name="label" placeholder="backend-prod" /></div>
           <div><label className="label">Mode</label><select className="input w-28" name="mode" defaultValue="live"><option value="live">live</option><option value="test">test</option></select></div>
@@ -69,7 +70,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: { w
 
       <div className="grid gap-4 lg:grid-cols-2">
         <section className="card" id="members">
-          <div className="mb-3 flex items-center gap-2"><IconUsers className="text-muted" /><h2 className="card-title">Members</h2><span className="text-xs text-muted">{members.length} / {Number.isFinite(limits.members) ? limits.members : "unlimited"}</span></div>
+          <div className="mb-3 flex items-center gap-2"><Users size={16} className="text-muted" /><h2 className="card-title">Members</h2><span className="text-xs text-muted">{members.length} / {Number.isFinite(limits.members) ? limits.members : "unlimited"}</span></div>
           <ul className="mb-4 divide-y divide-line/70 text-sm">
             {members.map(({ user, role }) => (
               <li key={user.id} className="flex items-center gap-3 py-2">

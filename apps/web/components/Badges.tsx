@@ -1,6 +1,6 @@
 export function StatusBadge({ status }: { status: string }) {
   const cls = status === "success" ? "badge-ok" : status === "timeout" ? "badge-warn" : "badge-bad";
-  return <span className={cls}><span className="dot bg-current" />{status}</span>;
+  return <span className={cls}><span className={`dot bg-current ${status !== "success" ? "animate-pulse" : ""}`} />{status}</span>;
 }
 export function PassBadge({ passed }: { passed: boolean | null }) {
   if (passed == null) return <span className="badge-muted">n/a</span>;

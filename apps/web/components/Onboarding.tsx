@@ -1,5 +1,8 @@
+"use client";
 import Link from "next/link";
-import { IconCheck } from "./Icons";
+import { Check } from "lucide-react";
+import { motion } from "framer-motion";
+import { Progress, Stagger, StaggerItem } from "./motion";
 
 export interface OnboardingState { hasKey: boolean; hasTrace: boolean; hasTemplate: boolean; hasEval: boolean; hasAlert: boolean }
 
@@ -15,25 +18,26 @@ export function Onboarding({ state }: { state: OnboardingState }) {
   const done = STEPS.filter((s) => state[s.key]).length;
   if (done === STEPS.length) return null;
   return (
-    <div className="card border-brand/30 bg-gradient-to-br from-brand-soft/60 to-surface">
-      <div className="flex items-center justify-between">
+    <div className="card relative overflow-hidden border-brand/30">
+      <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-brand/10 blur-3xl" />
+      <div className="relative flex items-center justify-between gap-4">
         <div><div className="card-title">Get set up</div><div className="text-xs text-muted">{done} of {STEPS.length} complete</div></div>
-        <div className="h-1.5 w-32 overflow-hidden rounded-full bg-line"><div className="h-full bg-brand transition-all" style={{ width: `${(done / STEPS.length) * 100}%` }} /></div>
+        <Progress pct={(done / STEPS.length) * 100} className="w-32" />
       </div>
-      <ol className="mt-4 grid gap-2 md:grid-cols-5">
+      <Stagger className="relative mt-4 grid gap-2 md:grid-cols-5" delay={0.1}>
         {STEPS.map((s, i) => {
           const ok = state[s.key];
           return (
-            <li key={s.key} className={`rounded-xl border p-3 text-xs ${ok ? "border-ok/30 bg-ok/5" : "border-line bg-surface"}`}>
+            <StaggerItem key={s.key} className={`rounded-xl border p-3 text-xs ${ok ? "border-ok/30 bg-ok/5" : "border-line bg-surface"}`}>
               <div className="flex items-center gap-2 font-medium">
-                <span className={`grid h-5 w-5 place-items-center rounded-full text-[10px] ${ok ? "bg-ok text-white" : "bg-surface-2 text-muted"}`}>{ok ? <IconCheck width={11} height={11} /> : i + 1}</span>
+                <motion.span layout className={`grid h-5 w-5 place-items-center rounded-full text-[10px] ${ok ? "bg-ok text-white" : "bg-surface-2 text-muted"}`}>{ok ? <Check size={11} /> : i + 1}</motion.span>
                 {ok ? s.title : <Link href={s.href} className="hover:underline">{s.title}</Link>}
               </div>
               <p className="mt-1.5 text-muted">{s.body}</p>
-            </li>
+            </StaggerItem>
           );
         })}
-      </ol>
+      </Stagger>
     </div>
   );
 }

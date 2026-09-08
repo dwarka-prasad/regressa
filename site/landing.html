@@ -1,39 +1,52 @@
 <section class="hero">
   <div>
-    <span class="pill">Open source · self-hostable · 4 SDKs</span>
-    <h1>Catch AI regressions before your users do.</h1>
-    <p class="lead">Regressa logs every LLM call, versions every prompt change, scores output quality automatically, and alerts you the moment quality drops, cost spikes, or latency degrades.</p>
-    <p><a class="btn primary" href="/regressa/docs/local-dev.html">Get started</a> <a class="btn" href="/regressa/docs/architecture.html">Read the architecture</a> <a class="btn" href="https://github.com/dwarka-prasad/regressa">GitHub</a></p>
+    <span class="pill" data-reveal><i></i>v0.1 · open source · MIT-friendly self-hosting</span>
+    <h1 data-reveal>Catch AI regressions <span class="g">before your users do.</span></h1>
+    <p class="lead" data-reveal>Regressa logs every LLM call, versions every prompt change, scores output quality automatically, and alerts you the moment quality drops, cost spikes or latency degrades.</p>
+    <p data-reveal><a class="btn primary" href="/regressa/docs/local-dev.html">Get started <i data-lucide="arrow-right" width="16"></i></a> <a class="btn" href="/regressa/docs/architecture.html">Architecture</a> <a class="btn" href="https://github.com/dwarka-prasad/regressa"><i data-lucide="github" width="16"></i> GitHub</a></p>
   </div>
-  <div class="shot" aria-hidden="true">
+  <div class="shot" data-reveal aria-hidden="true">
     <div class="row">
-      <div class="stat"><small>Requests</small><b>48,211</b><span class="d ok">▲ 12.4%</span></div>
-      <div class="stat"><small>Eval score</small><b>0.86</b><span class="d bad">▼ 7.1%</span></div>
-      <div class="stat"><small>p95 latency</small><b>812ms</b><span class="d ok">▼ 3.0%</span></div>
-      <div class="stat"><small>Cost</small><b>$142.30</b><span class="d bad">▲ 21.9%</span></div>
+      <div class="stat"><small>Requests</small><b data-count="48211">0</b><span class="d ok">▲ 12.4%</span></div>
+      <div class="stat"><small>Eval score</small><b data-count="0.86" data-decimals="2">0</b><span class="d bad">▼ 7.1%</span></div>
+      <div class="stat"><small>p95 latency</small><b data-count="812" data-suffix="ms">0</b><span class="d ok">▼ 3.0%</span></div>
+      <div class="stat"><small>Cost</small><b data-count="142.30" data-prefix="$" data-decimals="2">0</b><span class="d bad">▲ 21.9%</span></div>
     </div>
+    <svg class="chart" viewBox="0 0 600 110" preserveAspectRatio="none">
+      <defs><linearGradient id="hg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--brand)" stop-opacity=".3"/><stop offset="1" stop-color="var(--brand)" stop-opacity="0"/></linearGradient></defs>
+      <path class="area" fill="url(#hg)" d="M0,80 C60,70 90,40 150,48 C210,56 240,30 300,36 C360,42 390,20 450,26 C510,32 540,14 600,18 L600,110 L0,110 Z"/>
+      <path class="line" fill="none" stroke="var(--brand)" stroke-width="2.5" stroke-linecap="round" d="M0,80 C60,70 90,40 150,48 C210,56 240,30 300,36 C360,42 390,20 450,26 C510,32 540,14 600,18"/>
+      <path class="line2" fill="none" stroke="var(--bad)" stroke-width="2" stroke-dasharray="4 4" d="M0,95 C100,94 200,92 300,90 C400,88 480,70 600,60"/>
+    </svg>
     <table>
       <tr><td>support-agent</td><td><span class="v">v7 · current</span></td><td>0.81</td><td>790ms</td><td>$0.0021</td></tr>
       <tr><td>support-agent</td><td><span class="v">v6</span></td><td>0.88</td><td>812ms</td><td>$0.0017</td></tr>
       <tr><td>summarizer</td><td><span class="v">v3 · current</span></td><td>0.92</td><td>1.2s</td><td>$0.0044</td></tr>
     </table>
+    <div class="alert"><i></i><div><b>Eval score dropped 8.0%</b>support-agent v7 vs v6 · Slack notified</div></div>
   </div>
 </section>
 
+<div class="logos" data-reveal>
+  <span><i data-lucide="box" width="16"></i> OpenAI</span><span><i data-lucide="sparkles" width="16"></i> Anthropic</span><span><i data-lucide="radio" width="16"></i> OpenTelemetry</span><span><i data-lucide="hexagon" width="16"></i> Node</span><span><i data-lucide="code-2" width="16"></i> Python</span><span><i data-lucide="cpu" width="16"></i> Go</span><span><i data-lucide="coffee" width="16"></i> Java</span>
+</div>
+
 <section class="grid">
-  <div class="card"><h3>Prompt versioning</h3><p>Every distinct template hash becomes a version. Compare quality, latency, error rate and cost across versions, with a line diff.</p></div>
-  <div class="card"><h3>Automated evals</h3><p>LLM-as-judge with rubrics, semantic similarity to a golden set, or your own sandboxed scoring function. Sampled per template.</p></div>
-  <div class="card"><h3>Regression alerts</h3><p>Thresholds, percent change, rolling-baseline anomaly detection and budget caps. Slack, webhooks with HMAC, email.</p></div>
-  <div class="card"><h3>CI gate</h3><p><code>npx @regressa/node gate</code> blocks a merge when a prompt change regresses against production. Ships as a GitHub Action.</p></div>
-  <div class="card"><h3>Governance</h3><p>PII redaction at ingest, per-project retention, budget-driven sampling, OIDC SSO, roles and a full audit log.</p></div>
-  <div class="card"><h3>Any stack</h3><p>SDKs for Node, Python, Go and Java that wrap OpenAI and Anthropic clients in two lines, plus native OpenTelemetry ingestion.</p></div>
+  <div class="card" data-reveal><div class="ic"><i data-lucide="git-branch" width="18"></i></div><h3>Prompt versioning</h3><p>Every distinct template hash becomes a version. Compare quality, latency, error rate and cost across versions, with a line diff.</p></div>
+  <div class="card" data-reveal><div class="ic"><i data-lucide="flask-conical" width="18"></i></div><h3>Automated evals</h3><p>LLM-as-judge with rubrics, semantic similarity to a golden set, or your own sandboxed scoring function. Sampled per template.</p></div>
+  <div class="card" data-reveal><div class="ic"><i data-lucide="bell-ring" width="18"></i></div><h3>Regression alerts</h3><p>Thresholds, percent change, rolling-baseline anomaly detection and budget caps. Slack, signed webhooks, email.</p></div>
+  <div class="card" data-reveal><div class="ic"><i data-lucide="shield-check" width="18"></i></div><h3>CI gate</h3><p><code>npx @regressa/node gate</code> blocks a merge when a prompt change regresses against production. Ships as a GitHub Action.</p></div>
+  <div class="card" data-reveal><div class="ic"><i data-lucide="lock" width="18"></i></div><h3>Governance</h3><p>PII redaction at ingest, per-project retention, budget-driven sampling, OIDC SSO, roles and a full audit log.</p></div>
+  <div class="card" data-reveal><div class="ic"><i data-lucide="plug-zap" width="18"></i></div><h3>Any stack</h3><p>SDKs for Node, Python, Go and Java that wrap OpenAI and Anthropic clients in two lines, plus native OpenTelemetry ingestion.</p></div>
 </section>
 
 <section class="section">
-  <h2>Two lines to instrument</h2>
-  <p class="sub">Wrap the client you already use. Declare the template and Regressa does the rest.</p>
-  <div class="code">
-<pre><code>import OpenAI from "openai";
+  <h2 data-reveal>Two lines to instrument</h2>
+  <p class="sub" data-reveal>Wrap the client you already use. Declare the template and Regressa does the rest.</p>
+  <div data-reveal>
+    <div class="tabs" role="tablist"><button class="on" data-tab="node">Node</button><button data-tab="python">Python</button><button data-tab="go">Go</button><button data-tab="java">Java</button></div>
+    <div class="tabpanes">
+<pre class="on" data-pane="node"><code>import OpenAI from "openai";
 import { Regressa, wrapOpenAI } from "@regressa/node";
 
 const regressa = new Regressa();               // REGRESSA_API_KEY
@@ -44,7 +57,7 @@ await openai.chat.completions.create({
   messages,
   regressa: { promptTemplate: { name: "support-agent", raw: TEMPLATE } },
 });</code></pre>
-<pre><code>from openai import OpenAI
+<pre data-pane="python"><code>from openai import OpenAI
 from regressa import Regressa, wrap_openai
 
 regressa = Regressa()                           # REGRESSA_API_KEY
@@ -55,24 +68,51 @@ openai.chat.completions.create(
     messages=messages,
     regressa_prompt_template={"name": "support-agent", "raw": TEMPLATE},
 )</code></pre>
+<pre data-pane="go"><code>client := regressa.New(regressa.Options{})     // REGRESSA_API_KEY
+defer client.Shutdown(ctx)
+
+span := client.Start("gpt-4o-mini", regressa.OpenAI, msgs,
+    regressa.WithTemplate("support-agent", template))
+resp, err := provider.Call(ctx, req)
+span.End(resp.Text, resp.PromptTokens, resp.CompletionTokens, err)</code></pre>
+<pre data-pane="java"><code>Regressa regressa = Regressa.builder().build();   // REGRESSA_API_KEY
+
+Regressa.Span span = regressa.start("gpt-4o-mini", "openai")
+    .message("system", prompt).message("user", question)
+    .template("support-agent", TEMPLATE);
+try { span.end(out, promptTokens, completionTokens); }
+catch (Exception e) { span.fail(e); throw e; }</code></pre>
+    </div>
   </div>
 </section>
 
 <section class="section">
-  <h2>How it works</h2>
-  <p class="sub">Stateless ingest, queued workers, TimescaleDB for time series, Next.js dashboard.</p>
+  <h2 data-reveal>How it works</h2>
+  <p class="sub" data-reveal>Stateless ingest, queued workers, TimescaleDB for time series, Next.js dashboard.</p>
   <div class="steps">
-    <div><b>Ingest</b><span>SDK batches traces to the ingest API. Keys are hashed, payloads validated item by item, budgets enforced.</span></div>
-    <div><b>Version and store</b><span>The worker hashes the normalized template, detects new versions, redacts PII and writes to a hypertable.</span></div>
-    <div><b>Score</b><span>Sampled traces are scored by your evals. Results are stored per trace and aggregated per version.</span></div>
-    <div><b>Alert and gate</b><span>Rules run every minute. CI asks the gate for a verdict before a prompt change ships.</span></div>
+    <div data-reveal><b>Ingest</b><span>SDKs batch traces to the ingest API. Keys are hashed, payloads validated item by item, budgets enforced.</span></div>
+    <div data-reveal><b>Version and store</b><span>The worker hashes the normalized template, detects new versions, redacts PII and writes to a hypertable.</span></div>
+    <div data-reveal><b>Score</b><span>Sampled traces are scored by your evals. Results are stored per trace and aggregated per version.</span></div>
+    <div data-reveal><b>Alert and gate</b><span>Rules run every minute. CI asks the gate for a verdict before a prompt change ships.</span></div>
   </div>
 </section>
 
+<section class="nums">
+  <div data-reveal><b data-count="4">0</b><span>SDKs · Node, Python, Go, Java</span></div>
+  <div data-reveal><b data-count="3">0</b><span>eval types out of the box</span></div>
+  <div data-reveal><b data-count="60" data-suffix="s">0</b><span>alert evaluation cadence</span></div>
+  <div data-reveal><b data-count="2" data-suffix=" lines">0</b><span>to instrument a client</span></div>
+</section>
+
 <section class="section">
-  <h2>Run it locally in two minutes</h2>
-  <pre><code>git clone https://github.com/dwarka-prasad/regressa && cd regressa
+  <h2 data-reveal>Run it locally in two minutes</h2>
+  <pre data-reveal><code>git clone https://github.com/dwarka-prasad/regressa && cd regressa
 cp .env.example .env && pnpm install
 pnpm infra:up && pnpm db:migrate && pnpm db:seed
 pnpm dev     # dashboard :3100 · ingest :4100 · worker</code></pre>
+</section>
+
+<section class="cta" data-reveal>
+  <div><h2>Ship prompt changes with confidence.</h2><p>Self-host in minutes. Gate every prompt change in CI.</p></div>
+  <a class="btn" href="/regressa/docs/ci-gate.html">Set up the CI gate <i data-lucide="arrow-right" width="16"></i></a>
 </section>
