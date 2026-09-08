@@ -1,5 +1,9 @@
 # Contributing
 
+## Where to start
+
+See [ROADMAP.md](ROADMAP.md). Issues labelled `good first issue` are small and documented; `help wanted` are open to anyone. Comment on the issue to claim it before starting.
+
 ## Setup
 
 ```bash

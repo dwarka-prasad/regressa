@@ -41,6 +41,7 @@ docs/
 | [Evals](docs/evals.md) · [Alerts](docs/alerts.md) · [CI gate](docs/ci-gate.md) | quality scoring and regression detection |
 | [Governance](docs/governance.md) · [Security](docs/security.md) | budgets, redaction, retention, SSO, audit |
 | [Deployment](docs/deployment.md) · [Local development](docs/local-dev.md) · [Contributing](CONTRIBUTING.md) | running it |
+| [Roadmap](ROADMAP.md) | what is next; issues tagged `help wanted` are open to collaborators |
 
 ## Quick start
 

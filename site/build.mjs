@@ -22,6 +22,7 @@ const pages = [
   { slug: "deployment", title: "Deployment", file: "docs/deployment.md" },
   { slug: "security", title: "Security", file: "docs/security.md" },
   { slug: "contributing", title: "Contributing", file: "CONTRIBUTING.md" },
+  { slug: "roadmap", title: "Roadmap", file: "ROADMAP.md" },
   { slug: "changelog", title: "Changelog", file: "CHANGELOG.md" },
 ];
 

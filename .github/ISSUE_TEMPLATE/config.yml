@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Roadmap
+    url: https://github.com/dwarka-prasad/regressa/blob/main/ROADMAP.md
+    about: See what is planned and which issues are open for collaborators.
+  - name: Documentation
+    url: https://dwarka-prasad.github.io/regressa/
+    about: Architecture, SDKs, deployment, security.
