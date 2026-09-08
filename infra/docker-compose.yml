@@ -1,0 +1,37 @@
+name: regressa
+services:
+  timescaledb:
+    image: timescale/timescaledb-ha:pg16
+    container_name: regressa-timescaledb
+    environment:
+      POSTGRES_USER: regressa
+      POSTGRES_PASSWORD: regressa
+      POSTGRES_DB: regressa_dev
+    ports:
+      - "5433:5432"
+    volumes:
+      - regressa_pgdata:/home/postgres/pgdata/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/00-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U regressa -d regressa_dev"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: regressa-redis
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6380:6379"
+    volumes:
+      - regressa_redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  regressa_pgdata:
+  regressa_redis:

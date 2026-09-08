@@ -1,0 +1,24 @@
+name: Regressa regression gate
+description: Fail the job when a prompt template's CI run regresses against its production baseline in Regressa.
+branding: { icon: shield, color: blue }
+inputs:
+  api-key: { description: Regressa project key (rgsa_...), required: true }
+  template: { description: Prompt template name as declared in the SDK, required: true }
+  run: { description: Unique id for this CI run; must match metadata.regressa_run on the candidate traces, required: false, default: "${{ github.sha }}" }
+  app-url: { description: Regressa dashboard URL, required: false, default: https://app.regressa.dev }
+  min-score: { description: Absolute minimum avg eval score, required: false, default: "" }
+  max-drop-pct: { description: Max allowed score drop vs baseline (percent), required: false, default: "10" }
+  max-error-rate: { description: Max allowed error rate (0-1), required: false, default: "0.05" }
+  expect-evals: { description: Wait for at least this many eval results, required: false, default: "1" }
+  wait: { description: Seconds to wait for pending evals, required: false, default: "180" }
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        REGRESSA_API_KEY: ${{ inputs.api-key }}
+        REGRESSA_APP_URL: ${{ inputs.app-url }}
+      run: |
+        ARGS=(gate --template "${{ inputs.template }}" --run "${{ inputs.run }}" --max-drop-pct "${{ inputs.max-drop-pct }}" --max-error-rate "${{ inputs.max-error-rate }}" --expect-evals "${{ inputs.expect-evals }}" --wait "${{ inputs.wait }}")
+        if [ -n "${{ inputs.min-score }}" ]; then ARGS+=(--min-score "${{ inputs.min-score }}"); fi
+        npx --yes @regressa/node "${ARGS[@]}"

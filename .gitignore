@@ -1,0 +1,20 @@
+node_modules/
+dist/
+.next/
+.turbo/
+*.log
+.env
+.env.local
+.env.*.local
+coverage/
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+build/
+.DS_Store
+infra/terraform/.terraform/
+infra/terraform/*.tfstate*
+
+# Java build output
+packages/sdk-java/target/

@@ -1,0 +1,47 @@
+{
+  "name": "@regressa/node",
+  "version": "0.1.0",
+  "description": "Regressa SDK for Node.js \u2014 wrap OpenAI / Anthropic clients and stream traces to Regressa.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "bin",
+    "README.md"
+  ],
+  "keywords": [
+    "llm",
+    "observability",
+    "openai",
+    "anthropic",
+    "regression",
+    "evals",
+    "regressa"
+  ],
+  "homepage": "https://docs.regressa.dev",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "regressa": "./bin/regressa.mjs"
+  }
+}

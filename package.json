@@ -1,0 +1,32 @@
+{
+  "name": "regressa",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Regressa \u2014 catch AI regressions before your users do. LLM observability and prompt-regression monitoring.",
+  "packageManager": "pnpm@9.15.9",
+  "scripts": {
+    "dev": "pnpm --filter \"./packages/**\" build && set -a && . ./.env && set +a && turbo run dev --parallel",
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "db:migrate": "pnpm --filter @regressa/db migrate",
+    "db:seed": "pnpm --filter @regressa/db seed",
+    "infra:up": "docker compose -f infra/docker-compose.yml up -d",
+    "infra:down": "docker compose -f infra/docker-compose.yml down",
+    "test:py": "cd packages/sdk-python && .venv/bin/pytest -q",
+    "ci": "pnpm typecheck && pnpm test",
+    "test:go": "cd packages/sdk-go && go test ./...",
+    "test:java": "cd packages/sdk-java && mvn -q -B test",
+    "test:all": "pnpm test && pnpm test:py && pnpm test:go && pnpm test:java"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.3",
+    "typescript": "^5.6.3",
+    "@types/node": "^22.10.2",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
